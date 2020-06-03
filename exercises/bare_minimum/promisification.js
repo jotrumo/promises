@@ -1,7 +1,7 @@
 /**
  * Create the promise returning `Async` suffixed versions of the functions below,
  * Promisify them if you can, otherwise roll your own promise returning function
- */ 
+ */
 
 var fs = require('fs');
 var request = require('request');
@@ -13,7 +13,7 @@ var getGitHubProfile = function(user, callback) {
   var options = {
     url: 'https://api.github.com/users/' + user,
     headers: { 'User-Agent': 'request' },
-    json: true  // will JSON.parse(body) for us
+    json: true
   };
 
   request.get(options, function(err, res, body) {
@@ -26,8 +26,8 @@ var getGitHubProfile = function(user, callback) {
     }
   });
 };
-
-var getGitHubProfileAsync; // TODO
+//TODO
+var getGitHubProfileAsync = Promise.promisify(getGitHugProfile);
 
 
 // (2) Asyncronous token generation
@@ -37,15 +37,15 @@ var generateRandomToken = function(callback) {
     callback(null, buffer.toString('hex'));
   });
 };
-
-var generateRandomTokenAsync; // TODO
+//TODO
+var generateRandomTokenAsync = Promise.promisify(generateRandomToken);
 
 
 // (3) Asyncronous file manipulation
 var readFileAndMakeItFunny = function(filePath, callback) {
   fs.readFile(filePath, 'utf8', function(err, file) {
     if (err) { return callback(err); }
-   
+
     var funnyFile = file.split('\n')
       .map(function(line) {
         return line + ' lol';
@@ -55,8 +55,8 @@ var readFileAndMakeItFunny = function(filePath, callback) {
     callback(funnyFile);
   });
 };
-
-var readFileAndMakeItFunnyAsync; // TODO
+//TODO
+var readFileAndMakeItFunnyAsync = Promise.promisify(readFileAndMakeItFunny);
 
 // Export these functions so we can test them and reuse them in later exercises
 module.exports = {
